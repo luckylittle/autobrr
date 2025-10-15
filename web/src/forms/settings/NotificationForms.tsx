@@ -12,7 +12,7 @@ import Select from "react-select";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 
-import { APIClient } from "@api/APIClient";
+import { APIClient, PushoverSoundOptions } from "@api/APIClient";
 import { NotificationKeys } from "@api/query_keys";
 import { EventOptions, NotificationTypeOptions, SelectOption } from "@domain/constants";
 import { DEBUG } from "@components/debug";
@@ -21,7 +21,7 @@ import { ExternalLink } from "@components/ExternalLink";
 import { toast } from "@components/hot-toast";
 import Toast from "@components/notifications/Toast";
 import * as common from "@components/inputs/common";
-import { NumberFieldWide, PasswordFieldWide, SwitchGroupWide, TextFieldWide } from "@components/inputs";
+import { NumberFieldWide, PasswordFieldWide, SelectFieldWide, SwitchGroupWide, TextFieldWide } from "@components/inputs";
 import { Checkbox } from "@components/Checkbox";
 import { EmptySimple } from "@components/emptystates";
 
@@ -194,6 +194,12 @@ function FormFieldsPushover() {
         label="Priority"
         help="-2, -1, 0 (default), 1, or 2"
         required={true}
+      />
+      <SelectFieldWide
+        name="sound"
+        label="Sound"
+        help="Pushover notification sound"
+        options={PushoverSoundOptions}
       />
     </div>
   );
@@ -379,7 +385,8 @@ export function NotificationAddForm({ isOpen, toggle }: AddFormProps) {
                     name: "",
                     webhook: "",
                     events: [],
-                    username: ""
+                    username: "",
+                    sound: "pushover",
                   }}
                   onSubmit={onSubmit}
                   validate={validate}
@@ -545,9 +552,9 @@ const EventCheckBox = ({ event }: { event: typeof EventOptions[number] }) => (
         </span>
         <Checkbox
           value={field.value.includes(event.value)}
-          setValue={(checked) => 
-            form.setFieldValue('events', 
-              checked 
+          setValue={(checked) =>
+            form.setFieldValue('events',
+              checked
                 ? [...field.value, event.value]
                 : field.value.filter(e => e !== event.value)
             )
@@ -582,6 +589,7 @@ interface InitialValues {
   events: NotificationEvent[];
   username?: string;
   password?: string;
+  sound?: string;
   used_by_filters?: NotificationFilter[];
 }
 
@@ -635,6 +643,7 @@ export function NotificationUpdateForm({ isOpen, toggle, data: notification }: U
     events: notification.events || [],
     username: notification.username,
     password: notification.password,
+    sound: notification.sound,
     used_by_filters: notification.used_by_filters || [],
   };
 

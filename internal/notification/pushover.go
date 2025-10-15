@@ -28,6 +28,7 @@ type pushoverMessage struct {
 	Title     string    `json:"title"`
 	Timestamp time.Time `json:"timestamp"`
 	Html      int       `json:"html,omitempty"`
+	Sound     string    `json:"sound,omitempty"`
 }
 
 type pushoverSender struct {
@@ -68,6 +69,7 @@ func (s *pushoverSender) Send(event domain.NotificationEvent, payload domain.Not
 		Title:     title,
 		Timestamp: time.Now(),
 		Html:      1,
+		Sound:     s.Settings.Sound,
 	}
 
 	data := url.Values{}
@@ -78,6 +80,10 @@ func (s *pushoverSender) Send(event domain.NotificationEvent, payload domain.Not
 	data.Set("title", m.Title)
 	data.Set("timestamp", fmt.Sprintf("%v", m.Timestamp.Unix()))
 	data.Set("html", fmt.Sprintf("%v", m.Html))
+
+	if m.Sound != "" {
+		data.Set("sound", m.Sound)
+	}
 
 	if m.Priority == 2 {
 		data.Set("expire", "3600")

@@ -330,7 +330,7 @@ export const APIClient = {
     delete: (id: number) => appClient.Delete(`api/filters/${id}`),
     notifications: {
       get: (filterId: number) => appClient.Get<FilterNotification[]>(`api/filters/${filterId}/notifications`),
-      update: (filterId: number, notifications: FilterNotification[]) => 
+      update: (filterId: number, notifications: FilterNotification[]) =>
         appClient.Put(`api/filters/${filterId}/notifications`, {
           body: notifications
         })
@@ -521,3 +521,29 @@ export const APIClient = {
     getLatestRelease: () => appClient.Get<GithubRelease>("api/updates/latest")
   }
 };
+
+export const PushoverSoundOptions = [
+  { label: "Pushover (default)", value: "pushover" },
+  { label: "Bike", value: "bike" },
+  { label: "Bugle", value: "bugle" },
+  { label: "Cash Register", value: "cashregister" },
+  { label: "Classical", value: "classical" },
+  { label: "Cosmic", value: "cosmic" },
+  { label: "Falling", value: "falling" },
+  { label: "Gamelan", value: "gamelan" },
+  { label: "Incoming", value: "incoming" },
+  { label: "Intermission", value: "intermission" },
+  { label: "Magic", value: "magic" },
+  { label: "Mechanical", value: "mechanical" },
+  { label: "Piano Bar", value: "pianobar" },
+  { label: "Siren", value: "siren" },
+  { label: "Space Alarm", value: "spacealarm" },
+  { label: "Tug Boat", value: "tugboat" },
+  { label: "Alien Alarm (long)", value: "alien" },
+  { label: "Climb (long)", value: "climb" },
+  { label: "Persistent (long)", value: "persistent" },
+  { label: "Pushover Echo (long)", value: "echo" },
+  { label: "Up Down (long)", value: "updown" },
+  { label: "Vibrate Only", value: "vibrate" },
+  { label: "None (silent)", value: "none" },
+];
